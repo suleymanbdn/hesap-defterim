@@ -297,11 +297,12 @@ class _BilimselHesapMakinesiState extends State<BilimselHesapMakinesi> {
           ),
         ],
       ),
-      body: Column(
-        children: [
-          Expanded(
-            flex: 3,
-            child: Container(
+      body: SafeArea(
+        child: Column(
+          children: [
+            Expanded(
+              flex: 3,
+              child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               alignment: Alignment.bottomRight,
               child: Column(
@@ -404,6 +405,7 @@ class _BilimselHesapMakinesiState extends State<BilimselHesapMakinesi> {
             ),
           ),
         ],
+        ),
       ),
     );
   }

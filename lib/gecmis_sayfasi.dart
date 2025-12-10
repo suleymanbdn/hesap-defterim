@@ -51,18 +51,19 @@ class GecmisSayfasi extends StatelessWidget {
           ),
         ],
       ),
-      body: historyList.isEmpty
-          ? Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(Icons.history, size: 64, color: subTextColor.withOpacity(0.3)),
-                  const SizedBox(height: 16),
-                  Text("Henüz işlem yapılmadı.", style: TextStyle(color: subTextColor)),
-                ],
-              ),
-            )
-          : ListView.builder(
+      body: SafeArea(
+        child: historyList.isEmpty
+            ? Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.history, size: 64, color: subTextColor.withOpacity(0.3)),
+                    const SizedBox(height: 16),
+                    Text("Henüz işlem yapılmadı.", style: TextStyle(color: subTextColor)),
+                  ],
+                ),
+              )
+            : ListView.builder(
               padding: const EdgeInsets.all(10),
               itemCount: historyList.length,
               itemBuilder: (context, index) {
@@ -104,6 +105,7 @@ class GecmisSayfasi extends StatelessWidget {
                 );
               },
             ),
+      ),
     );
   }
 }

@@ -300,11 +300,12 @@ class _AnasayfaState extends State<Anasayfa> {
           ),
         ],
       ),
-      body: Column(
-        children: <Widget>[
-          Expanded(
-            flex: 3,
-            child: Column(
+      body: SafeArea(
+        child: Column(
+          children: <Widget>[
+            Expanded(
+              flex: 3,
+              child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
@@ -415,6 +416,7 @@ class _AnasayfaState extends State<Anasayfa> {
             ),
           ),
         ],
+        ),
       ),
     );
   }

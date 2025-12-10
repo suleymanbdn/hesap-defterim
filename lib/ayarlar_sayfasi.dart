@@ -163,9 +163,10 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi> {
           ),
         ),
       ),
-      body: ListView(
-        padding: const EdgeInsets.all(16),
-        children: [
+      body: SafeArea(
+        child: ListView(
+          padding: const EdgeInsets.all(16),
+          children: [
           _buildSectionTitle("Görünüm", textColor),
           Card(
             color: cardColor,
@@ -395,6 +396,7 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi> {
 
           const SizedBox(height: 32),
         ],
+        ),
       ),
     );
   }

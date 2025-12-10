@@ -196,9 +196,10 @@ class _BirimCevirmeState extends State<BirimCevirme> {
           ),
         ],
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
-        child: Column(
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(16),
+          child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             SizedBox(
@@ -407,6 +408,7 @@ class _BirimCevirmeState extends State<BirimCevirme> {
               ),
             ),
           ],
+        ),
         ),
       ),
     );

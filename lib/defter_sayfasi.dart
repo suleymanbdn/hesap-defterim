@@ -144,20 +144,21 @@ class _DefterSayfasiState extends State<DefterSayfasi> {
           ),
         ],
       ),
-      body: currentList.isEmpty
-          ? Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(Icons.book, size: 64, color: subTextColor.withOpacity(0.3)),
-                  const SizedBox(height: 16),
-                  Text("Defterin boş.", style: TextStyle(color: subTextColor)),
-                  const SizedBox(height: 4),
-                  Text("Geçmişten işlem ekleyebilirsin.", style: TextStyle(color: subTextColor, fontSize: 12)),
-                ],
-              ),
-            )
-          : ListView.builder(
+      body: SafeArea(
+        child: currentList.isEmpty
+            ? Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.book, size: 64, color: subTextColor.withOpacity(0.3)),
+                    const SizedBox(height: 16),
+                    Text("Defterin boş.", style: TextStyle(color: subTextColor)),
+                    const SizedBox(height: 4),
+                    Text("Geçmişten işlem ekleyebilirsin.", style: TextStyle(color: subTextColor, fontSize: 12)),
+                  ],
+                ),
+              )
+            : ListView.builder(
               padding: const EdgeInsets.all(10),
               itemCount: currentList.length,
               itemBuilder: (context, index) {
@@ -230,6 +231,7 @@ class _DefterSayfasiState extends State<DefterSayfasi> {
                 );
               },
             ),
+      ),
     );
   }
 }

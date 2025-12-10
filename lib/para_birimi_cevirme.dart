@@ -259,21 +259,22 @@ class _ParaBirimiCevirmeState extends State<ParaBirimiCevirme> {
           ),
         ],
       ),
-      body: _isLoading
-          ? Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  CircularProgressIndicator(color: accentColor),
-                  const SizedBox(height: 16),
-                  Text(
-                    "Güncel kurlar yükleniyor...",
-                    style: TextStyle(color: subTextColor),
-                  ),
-                ],
-              ),
-            )
-          : SingleChildScrollView(
+      body: SafeArea(
+        child: _isLoading
+            ? Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    CircularProgressIndicator(color: accentColor),
+                    const SizedBox(height: 16),
+                    Text(
+                      "Güncel kurlar yükleniyor...",
+                      style: TextStyle(color: subTextColor),
+                    ),
+                  ],
+                ),
+              )
+            : SingleChildScrollView(
               padding: const EdgeInsets.all(20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -564,6 +565,7 @@ class _ParaBirimiCevirmeState extends State<ParaBirimiCevirme> {
                 ],
               ),
             ),
+      ),
     );
   }
 
