@@ -143,7 +143,9 @@ lib/
 
 ## 👨‍💻 Geliştirici
 
-**Süleyman Büdün**
+**Geliştirici:** Süleyman Büdün
+
+**Yayıncı:** SuBuSoft
 
 - GitHub: [@suleymanbdn](https://github.com/suleymanbdn)
 
@@ -162,5 +164,5 @@ Eğer bu proje işinize yaradıysa, bir ⭐ vererek destek olabilirsiniz!
 ---
 
 <p align="center">
-  Made with ❤️ and Flutter
+  Made with ❤️ by SuBuSoft
 </p>

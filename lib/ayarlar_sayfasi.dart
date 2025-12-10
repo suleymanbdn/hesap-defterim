@@ -53,14 +53,20 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        backgroundColor: widget.isDarkMode ? const Color(0xFF1E293B) : Colors.white,
+        backgroundColor: widget.isDarkMode
+            ? const Color(0xFF1E293B)
+            : Colors.white,
         title: Text(
           "Geçmişi Temizle",
-          style: TextStyle(color: widget.isDarkMode ? Colors.white : Colors.black),
+          style: TextStyle(
+            color: widget.isDarkMode ? Colors.white : Colors.black,
+          ),
         ),
         content: Text(
           "Tüm hesaplama geçmişi silinecek. Bu işlem geri alınamaz.",
-          style: TextStyle(color: widget.isDarkMode ? Colors.white70 : Colors.black87),
+          style: TextStyle(
+            color: widget.isDarkMode ? Colors.white70 : Colors.black87,
+          ),
         ),
         actions: [
           TextButton(
@@ -86,14 +92,20 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        backgroundColor: widget.isDarkMode ? const Color(0xFF1E293B) : Colors.white,
+        backgroundColor: widget.isDarkMode
+            ? const Color(0xFF1E293B)
+            : Colors.white,
         title: Text(
           "Defteri Temizle",
-          style: TextStyle(color: widget.isDarkMode ? Colors.white : Colors.black),
+          style: TextStyle(
+            color: widget.isDarkMode ? Colors.white : Colors.black,
+          ),
         ),
         content: Text(
           "Defterdeki tüm kayıtlar silinecek. Bu işlem geri alınamaz.",
-          style: TextStyle(color: widget.isDarkMode ? Colors.white70 : Colors.black87),
+          style: TextStyle(
+            color: widget.isDarkMode ? Colors.white70 : Colors.black87,
+          ),
         ),
         actions: [
           TextButton(
@@ -117,19 +129,26 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi> {
 
   @override
   Widget build(BuildContext context) {
-    Color bgColor = widget.isDarkMode ? const Color(0xFF0F172A) : const Color(0xFFF8FAFC);
-    Color cardColor = widget.isDarkMode ? const Color(0xFF1E293B) : Colors.white;
-    Color textColor = widget.isDarkMode ? Colors.white : const Color(0xFF0F172A);
-    Color subTextColor = widget.isDarkMode ? const Color(0xFF94A3B8) : const Color(0xFF64748B);
-    Color appBarColor = widget.isDarkMode ? const Color(0xFF0F172A) : const Color(0xFFFF9500);
+    Color bgColor = widget.isDarkMode
+        ? const Color(0xFF0F172A)
+        : const Color(0xFFF8FAFC);
+    Color cardColor = widget.isDarkMode
+        ? const Color(0xFF1E293B)
+        : Colors.white;
+    Color textColor = widget.isDarkMode
+        ? Colors.white
+        : const Color(0xFF0F172A);
+    Color subTextColor = widget.isDarkMode
+        ? const Color(0xFF94A3B8)
+        : const Color(0xFF64748B);
+    Color appBarColor = widget.isDarkMode
+        ? const Color(0xFF0F172A)
+        : const Color(0xFFFF9500);
     Color accentColor = const Color(0xFFFF9500);
 
     return Scaffold(
       backgroundColor: bgColor,
-      drawer: AppDrawer(
-        isDarkMode: widget.isDarkMode,
-        currentPage: 'settings',
-      ),
+      drawer: AppDrawer(isDarkMode: widget.isDarkMode, currentPage: 'settings'),
       appBar: AppBar(
         title: const Text("Ayarlar"),
         centerTitle: true,
@@ -151,13 +170,20 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi> {
           Card(
             color: cardColor,
             elevation: 2,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
+            ),
             child: Column(
               children: [
                 SwitchListTile(
-                  title: Text("Karanlık Mod", style: TextStyle(color: textColor)),
+                  title: Text(
+                    "Karanlık Mod",
+                    style: TextStyle(color: textColor),
+                  ),
                   subtitle: Text(
-                    widget.isDarkMode ? "Karanlık tema aktif" : "Aydınlık tema aktif",
+                    widget.isDarkMode
+                        ? "Karanlık tema aktif"
+                        : "Aydınlık tema aktif",
                     style: TextStyle(color: subTextColor, fontSize: 12),
                   ),
                   secondary: Icon(
@@ -173,27 +199,37 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi> {
               ],
             ),
           ),
-          
+
           const SizedBox(height: 24),
-          
+
           _buildSectionTitle("Hesaplama", textColor),
           Card(
             color: cardColor,
             elevation: 2,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
+            ),
             child: Column(
               children: [
                 ListTile(
                   leading: Icon(Icons.pin, color: accentColor),
-                  title: Text("Ondalık Basamak", style: TextStyle(color: textColor)),
+                  title: Text(
+                    "Ondalık Basamak",
+                    style: TextStyle(color: textColor),
+                  ),
                   subtitle: Text(
                     "Sonuçlarda $_decimalPlaces basamak göster",
                     style: TextStyle(color: subTextColor, fontSize: 12),
                   ),
                   trailing: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 4,
+                    ),
                     decoration: BoxDecoration(
-                      color: widget.isDarkMode ? const Color(0xFF334155) : const Color(0xFFF1F5F9),
+                      color: widget.isDarkMode
+                          ? const Color(0xFF334155)
+                          : const Color(0xFFF1F5F9),
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: DropdownButton<int>(
@@ -219,14 +255,16 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi> {
               ],
             ),
           ),
-          
+
           const SizedBox(height: 24),
-          
+
           _buildSectionTitle("Geri Bildirim", textColor),
           Card(
             color: cardColor,
             elevation: 2,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
+            ),
             child: Column(
               children: [
                 SwitchListTile(
@@ -265,19 +303,24 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi> {
               ],
             ),
           ),
-          
+
           const SizedBox(height: 24),
-          
+
           _buildSectionTitle("Veri Yönetimi", textColor),
           Card(
             color: cardColor,
             elevation: 2,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
+            ),
             child: Column(
               children: [
                 ListTile(
                   leading: const Icon(Icons.history, color: Colors.orange),
-                  title: Text("Geçmişi Temizle", style: TextStyle(color: textColor)),
+                  title: Text(
+                    "Geçmişi Temizle",
+                    style: TextStyle(color: textColor),
+                  ),
                   subtitle: Text(
                     "Tüm hesaplama geçmişini sil",
                     style: TextStyle(color: subTextColor, fontSize: 12),
@@ -288,7 +331,10 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi> {
                 Divider(height: 1, color: subTextColor.withOpacity(0.2)),
                 ListTile(
                   leading: const Icon(Icons.bookmark, color: Colors.blue),
-                  title: Text("Defteri Temizle", style: TextStyle(color: textColor)),
+                  title: Text(
+                    "Defteri Temizle",
+                    style: TextStyle(color: textColor),
+                  ),
                   subtitle: Text(
                     "Defterdeki tüm kayıtları sil",
                     style: TextStyle(color: subTextColor, fontSize: 12),
@@ -299,19 +345,24 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi> {
               ],
             ),
           ),
-          
+
           const SizedBox(height: 24),
-          
+
           _buildSectionTitle("Hakkında", textColor),
           Card(
             color: cardColor,
             elevation: 2,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
+            ),
             child: Column(
               children: [
                 ListTile(
                   leading: Icon(Icons.info_outline, color: accentColor),
-                  title: Text("Uygulama Sürümü", style: TextStyle(color: textColor)),
+                  title: Text(
+                    "Uygulama Sürümü",
+                    style: TextStyle(color: textColor),
+                  ),
                   trailing: Text(
                     "1.0.0",
                     style: TextStyle(color: subTextColor),
@@ -320,16 +371,28 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi> {
                 Divider(height: 1, color: subTextColor.withOpacity(0.2)),
                 ListTile(
                   leading: Icon(Icons.code, color: accentColor),
-                  title: Text("Geliştirici", style: TextStyle(color: textColor)),
+                  title: Text(
+                    "Geliştirici",
+                    style: TextStyle(color: textColor),
+                  ),
                   trailing: Text(
                     "Süleyman Büdün",
+                    style: TextStyle(color: subTextColor),
+                  ),
+                ),
+                Divider(height: 1, color: subTextColor.withOpacity(0.2)),
+                ListTile(
+                  leading: Icon(Icons.business, color: accentColor),
+                  title: Text("Yayıncı", style: TextStyle(color: textColor)),
+                  trailing: Text(
+                    "SuBuSoft",
                     style: TextStyle(color: subTextColor),
                   ),
                 ),
               ],
             ),
           ),
-          
+
           const SizedBox(height: 32),
         ],
       ),

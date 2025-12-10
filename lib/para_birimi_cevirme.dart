@@ -6,7 +6,7 @@ import 'drawer_widget.dart';
 class ParaBirimiCevirme extends StatefulWidget {
   final bool isDarkMode;
   final Function(bool) onThemeChanged;
-  
+
   const ParaBirimiCevirme({
     super.key,
     required this.isDarkMode,
@@ -57,6 +57,35 @@ class _ParaBirimiCevirmeState extends State<ParaBirimiCevirme> {
     'NZD': '🇳🇿 Yeni Zelanda Doları',
   };
 
+  final Map<String, String> _currencySymbols = {
+    'TRY': '₺',
+    'USD': '\$',
+    'EUR': '€',
+    'GBP': '£',
+    'JPY': '¥',
+    'CHF': 'Fr',
+    'CAD': 'C\$',
+    'AUD': 'A\$',
+    'CNY': '¥',
+    'RUB': '₽',
+    'SAR': '﷼',
+    'AED': 'د.إ',
+    'KWD': 'د.ك',
+    'QAR': '﷼',
+    'INR': '₹',
+    'KRW': '₩',
+    'BRL': 'R\$',
+    'MXN': '\$',
+    'SEK': 'kr',
+    'NOK': 'kr',
+    'DKK': 'kr',
+    'PLN': 'zł',
+    'ZAR': 'R',
+    'SGD': 'S\$',
+    'HKD': 'HK\$',
+    'NZD': 'NZ\$',
+  };
+
   @override
   void initState() {
     super.initState();
@@ -70,25 +99,25 @@ class _ParaBirimiCevirmeState extends State<ParaBirimiCevirme> {
     });
 
     try {
-      final response = await http.get(
-        Uri.parse('https://open.er-api.com/v6/latest/TRY'),
-      ).timeout(const Duration(seconds: 10));
+      final response = await http
+          .get(Uri.parse('https://open.er-api.com/v6/latest/TRY'))
+          .timeout(const Duration(seconds: 10));
 
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
-        
+
         if (data['result'] == 'success') {
           final rates = data['rates'] as Map<String, dynamic>;
-          
+
           setState(() {
             _exchangeRates = {'TRY': 1.0};
-            
+
             for (String currency in _currencyNames.keys) {
               if (rates.containsKey(currency)) {
                 _exchangeRates[currency] = (rates[currency] as num).toDouble();
               }
             }
-            
+
             _lastUpdate = data['time_last_update_utc'] ?? '';
             if (_lastUpdate.isNotEmpty) {
               try {
@@ -98,10 +127,10 @@ class _ParaBirimiCevirmeState extends State<ParaBirimiCevirme> {
                 }
               } catch (_) {}
             }
-            
+
             _isLoading = false;
           });
-          
+
           _convert();
         } else {
           throw Exception('API yanıtı başarısız');
@@ -112,8 +141,9 @@ class _ParaBirimiCevirmeState extends State<ParaBirimiCevirme> {
     } catch (e) {
       setState(() {
         _isLoading = false;
-        _errorMessage = 'Kurlar yüklenemedi. İnternet bağlantınızı kontrol edin.';
-        
+        _errorMessage =
+            'Kurlar yüklenemedi. İnternet bağlantınızı kontrol edin.';
+
         _exchangeRates = {
           'TRY': 1.0,
           'USD': 0.029,
@@ -138,15 +168,15 @@ class _ParaBirimiCevirmeState extends State<ParaBirimiCevirme> {
 
   void _convert() {
     if (_exchangeRates.isEmpty) return;
-    
+
     double amount = double.tryParse(_amountController.text) ?? 0;
-    
+
     double fromRate = _exchangeRates[_fromCurrency] ?? 1.0;
     double toRate = _exchangeRates[_toCurrency] ?? 1.0;
-    
+
     double inTRY = amount / fromRate;
     double converted = inTRY * toRate;
-    
+
     setState(() {
       _result = converted;
     });
@@ -163,29 +193,36 @@ class _ParaBirimiCevirmeState extends State<ParaBirimiCevirme> {
 
   String _getExchangeRateText() {
     if (_exchangeRates.isEmpty) return '';
-    
+
     double fromRate = _exchangeRates[_fromCurrency] ?? 1.0;
     double toRate = _exchangeRates[_toCurrency] ?? 1.0;
     double rate = toRate / fromRate;
-    
+
     return '1 $_fromCurrency = ${rate.toStringAsFixed(4)} $_toCurrency';
   }
 
   @override
   Widget build(BuildContext context) {
-    Color bgColor = widget.isDarkMode ? const Color(0xFF0F172A) : const Color(0xFFF8FAFC);
-    Color cardColor = widget.isDarkMode ? const Color(0xFF1E293B) : Colors.white;
-    Color textColor = widget.isDarkMode ? Colors.white : const Color(0xFF0F172A);
-    Color appBarColor = widget.isDarkMode ? const Color(0xFF0F172A) : const Color(0xFFFF9500);
+    Color bgColor = widget.isDarkMode
+        ? const Color(0xFF0F172A)
+        : const Color(0xFFF8FAFC);
+    Color cardColor = widget.isDarkMode
+        ? const Color(0xFF1E293B)
+        : Colors.white;
+    Color textColor = widget.isDarkMode
+        ? Colors.white
+        : const Color(0xFF0F172A);
+    Color appBarColor = widget.isDarkMode
+        ? const Color(0xFF0F172A)
+        : const Color(0xFFFF9500);
     Color accentColor = const Color(0xFFFF9500);
-    Color subTextColor = widget.isDarkMode ? const Color(0xFF94A3B8) : const Color(0xFF64748B);
+    Color subTextColor = widget.isDarkMode
+        ? const Color(0xFF94A3B8)
+        : const Color(0xFF64748B);
 
     return Scaffold(
       backgroundColor: bgColor,
-      drawer: AppDrawer(
-        isDarkMode: widget.isDarkMode,
-        currentPage: 'currency',
-      ),
+      drawer: AppDrawer(isDarkMode: widget.isDarkMode, currentPage: 'currency'),
       appBar: AppBar(
         title: const Text("Para Birimi Çevirici"),
         centerTitle: true,
@@ -201,16 +238,16 @@ class _ParaBirimiCevirmeState extends State<ParaBirimiCevirme> {
         ),
         actions: [
           IconButton(
-            icon: _isLoading 
-              ? const SizedBox(
-                  width: 20,
-                  height: 20,
-                  child: CircularProgressIndicator(
-                    strokeWidth: 2,
-                    color: Colors.white,
-                  ),
-                )
-              : const Icon(Icons.refresh),
+            icon: _isLoading
+                ? const SizedBox(
+                    width: 20,
+                    height: 20,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2,
+                      color: Colors.white,
+                    ),
+                  )
+                : const Icon(Icons.refresh),
             onPressed: _isLoading ? null : _fetchExchangeRates,
             tooltip: 'Kurları Güncelle',
           ),
@@ -248,7 +285,9 @@ class _ParaBirimiCevirmeState extends State<ParaBirimiCevirme> {
                       decoration: BoxDecoration(
                         color: Colors.orange.withOpacity(0.1),
                         borderRadius: BorderRadius.circular(12),
-                        border: Border.all(color: Colors.orange.withOpacity(0.3)),
+                        border: Border.all(
+                          color: Colors.orange.withOpacity(0.3),
+                        ),
                       ),
                       child: Row(
                         children: [
@@ -257,17 +296,24 @@ class _ParaBirimiCevirmeState extends State<ParaBirimiCevirme> {
                           Expanded(
                             child: Text(
                               _errorMessage!,
-                              style: const TextStyle(color: Colors.orange, fontSize: 13),
+                              style: const TextStyle(
+                                color: Colors.orange,
+                                fontSize: 13,
+                              ),
                             ),
                           ),
                           IconButton(
-                            icon: const Icon(Icons.refresh, color: Colors.orange, size: 20),
+                            icon: const Icon(
+                              Icons.refresh,
+                              color: Colors.orange,
+                              size: 20,
+                            ),
                             onPressed: _fetchExchangeRates,
                           ),
                         ],
                       ),
                     ),
-                  
+
                   if (_lastUpdate.isNotEmpty)
                     Padding(
                       padding: const EdgeInsets.only(bottom: 16),
@@ -283,11 +329,13 @@ class _ParaBirimiCevirmeState extends State<ParaBirimiCevirme> {
                         ],
                       ),
                     ),
-                  
+
                   Card(
                     color: cardColor,
                     elevation: 4,
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
                     child: Padding(
                       padding: const EdgeInsets.all(20),
                       child: Column(
@@ -304,7 +352,9 @@ class _ParaBirimiCevirmeState extends State<ParaBirimiCevirme> {
                           const SizedBox(height: 8),
                           TextField(
                             controller: _amountController,
-                            keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                            keyboardType: const TextInputType.numberWithOptions(
+                              decimal: true,
+                            ),
                             style: TextStyle(
                               fontSize: 32,
                               fontWeight: FontWeight.bold,
@@ -312,9 +362,29 @@ class _ParaBirimiCevirmeState extends State<ParaBirimiCevirme> {
                             ),
                             decoration: InputDecoration(
                               hintText: "0.00",
-                              hintStyle: TextStyle(color: textColor.withOpacity(0.3)),
+                              hintStyle: TextStyle(
+                                color: textColor.withOpacity(0.3),
+                              ),
                               border: InputBorder.none,
-                              prefixIcon: Icon(Icons.attach_money, color: accentColor, size: 28),
+                              prefixIcon: Padding(
+                                padding: const EdgeInsets.only(
+                                  left: 12,
+                                  right: 8,
+                                ),
+                                child: Text(
+                                  _currencySymbols[_fromCurrency] ??
+                                      _fromCurrency,
+                                  style: TextStyle(
+                                    fontSize: 28,
+                                    fontWeight: FontWeight.bold,
+                                    color: accentColor,
+                                  ),
+                                ),
+                              ),
+                              prefixIconConstraints: const BoxConstraints(
+                                minWidth: 0,
+                                minHeight: 0,
+                              ),
                             ),
                             onChanged: (_) => _convert(),
                           ),
@@ -322,13 +392,15 @@ class _ParaBirimiCevirmeState extends State<ParaBirimiCevirme> {
                       ),
                     ),
                   ),
-                  
+
                   const SizedBox(height: 20),
-                  
+
                   Card(
                     color: cardColor,
                     elevation: 4,
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
                     child: Padding(
                       padding: const EdgeInsets.all(16),
                       child: Column(
@@ -344,14 +416,18 @@ class _ParaBirimiCevirmeState extends State<ParaBirimiCevirme> {
                             },
                             textColor: textColor,
                           ),
-                          
+
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: 12),
                             child: Column(
                               children: [
                                 Row(
                                   children: [
-                                    Expanded(child: Divider(color: textColor.withOpacity(0.2))),
+                                    Expanded(
+                                      child: Divider(
+                                        color: textColor.withOpacity(0.2),
+                                      ),
+                                    ),
                                     IconButton(
                                       onPressed: _swapCurrencies,
                                       icon: Container(
@@ -367,7 +443,11 @@ class _ParaBirimiCevirmeState extends State<ParaBirimiCevirme> {
                                         ),
                                       ),
                                     ),
-                                    Expanded(child: Divider(color: textColor.withOpacity(0.2))),
+                                    Expanded(
+                                      child: Divider(
+                                        color: textColor.withOpacity(0.2),
+                                      ),
+                                    ),
                                   ],
                                 ),
                                 const SizedBox(height: 8),
@@ -382,7 +462,7 @@ class _ParaBirimiCevirmeState extends State<ParaBirimiCevirme> {
                               ],
                             ),
                           ),
-                          
+
                           _buildCurrencySelector(
                             label: "Hedef",
                             value: _toCurrency,
@@ -398,13 +478,15 @@ class _ParaBirimiCevirmeState extends State<ParaBirimiCevirme> {
                       ),
                     ),
                   ),
-                  
+
                   const SizedBox(height: 20),
-                  
+
                   Card(
                     color: accentColor,
                     elevation: 4,
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
                     child: Padding(
                       padding: const EdgeInsets.all(24),
                       child: Column(
@@ -440,23 +522,29 @@ class _ParaBirimiCevirmeState extends State<ParaBirimiCevirme> {
                       ),
                     ),
                   ),
-                  
+
                   const SizedBox(height: 20),
-                  
+
                   Container(
                     padding: const EdgeInsets.all(16),
                     decoration: BoxDecoration(
-                      color: widget.isDarkMode ? Colors.green.withOpacity(0.1) : Colors.green.shade50,
+                      color: widget.isDarkMode
+                          ? Colors.green.withOpacity(0.1)
+                          : Colors.green.shade50,
                       borderRadius: BorderRadius.circular(12),
                       border: Border.all(
-                        color: widget.isDarkMode ? Colors.green.withOpacity(0.3) : Colors.green.shade100,
+                        color: widget.isDarkMode
+                            ? Colors.green.withOpacity(0.3)
+                            : Colors.green.shade100,
                       ),
                     ),
                     child: Row(
                       children: [
                         Icon(
                           Icons.cloud_done,
-                          color: widget.isDarkMode ? Colors.green.shade300 : Colors.green.shade700,
+                          color: widget.isDarkMode
+                              ? Colors.green.shade300
+                              : Colors.green.shade700,
                         ),
                         const SizedBox(width: 12),
                         Expanded(
@@ -464,7 +552,9 @@ class _ParaBirimiCevirmeState extends State<ParaBirimiCevirme> {
                             "Kurlar günlük olarak güncellenen canlı verilerden alınmaktadır.",
                             style: TextStyle(
                               fontSize: 12,
-                              color: widget.isDarkMode ? Colors.green.shade300 : Colors.green.shade700,
+                              color: widget.isDarkMode
+                                  ? Colors.green.shade300
+                                  : Colors.green.shade700,
                             ),
                           ),
                         ),
@@ -486,21 +576,18 @@ class _ParaBirimiCevirmeState extends State<ParaBirimiCevirme> {
     List<String> availableCurrencies = _exchangeRates.keys
         .where((currency) => _currencyNames.containsKey(currency))
         .toList();
-    
+
     if (!availableCurrencies.contains(value)) {
       availableCurrencies.insert(0, value);
     }
-    
+
     return Row(
       children: [
         SizedBox(
           width: 55,
           child: Text(
             label,
-            style: TextStyle(
-              fontSize: 14,
-              color: textColor.withOpacity(0.7),
-            ),
+            style: TextStyle(fontSize: 14, color: textColor.withOpacity(0.7)),
           ),
         ),
         const SizedBox(width: 12),
@@ -508,14 +595,18 @@ class _ParaBirimiCevirmeState extends State<ParaBirimiCevirme> {
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 12),
             decoration: BoxDecoration(
-              color: widget.isDarkMode ? const Color(0xFF334155) : const Color(0xFFF1F5F9),
+              color: widget.isDarkMode
+                  ? const Color(0xFF334155)
+                  : const Color(0xFFF1F5F9),
               borderRadius: BorderRadius.circular(12),
             ),
             child: DropdownButton<String>(
               value: value,
               isExpanded: true,
               underline: const SizedBox(),
-              dropdownColor: widget.isDarkMode ? const Color(0xFF1E293B) : Colors.white,
+              dropdownColor: widget.isDarkMode
+                  ? const Color(0xFF1E293B)
+                  : Colors.white,
               style: TextStyle(
                 color: textColor,
                 fontSize: 16,

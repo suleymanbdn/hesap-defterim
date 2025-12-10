@@ -6,7 +6,7 @@ import 'drawer_widget.dart';
 class BilimselHesapMakinesi extends StatefulWidget {
   final bool isDarkMode;
   final Function(bool) onThemeChanged;
-  
+
   const BilimselHesapMakinesi({
     super.key,
     required this.isDarkMode,
@@ -41,7 +41,7 @@ class _BilimselHesapMakinesiState extends State<BilimselHesapMakinesi> {
             _expression = "0";
           }
           break;
-        
+
         case 'Rad':
           _isDegree = false;
           break;
@@ -51,7 +51,7 @@ class _BilimselHesapMakinesiState extends State<BilimselHesapMakinesi> {
         case 'Inv':
           _isInv = !_isInv;
           break;
-        
+
         case 'Ans':
           if (_previousAnswer.isNotEmpty) {
             _expression += _previousAnswer;
@@ -63,7 +63,7 @@ class _BilimselHesapMakinesiState extends State<BilimselHesapMakinesi> {
         case 'x!':
           _expression += "!";
           break;
-        
+
         case 'sin':
         case 'sin⁻¹':
           _expression += _isInv ? "asin(" : "sin(";
@@ -88,35 +88,35 @@ class _BilimselHesapMakinesiState extends State<BilimselHesapMakinesi> {
         case 'x²':
           _expression += _isInv ? "^2" : "sqrt(";
           break;
-          
+
         case '=':
           try {
             _history = _expression;
             String finalExpression = _expression;
-            
+
             finalExpression = finalExpression.replaceAll('×', '*');
             finalExpression = finalExpression.replaceAll('÷', '/');
             finalExpression = finalExpression.replaceAll('π', '${math.pi}');
             finalExpression = finalExpression.replaceAll('e', '${math.e}');
-            
-            finalExpression = finalExpression.replaceAll('log', 'log10'); 
+
+            finalExpression = finalExpression.replaceAll('log', 'log10');
             finalExpression = finalExpression.replaceAll('ln', 'ln');
-            
+
             finalExpression = finalExpression.replaceAll('asin', 'arcsin');
             finalExpression = finalExpression.replaceAll('acos', 'arccos');
             finalExpression = finalExpression.replaceAll('atan', 'arctan');
-            
+
             if (_isDegree) {
               finalExpression = finalExpression.replaceAllMapped(
-                RegExp(r'(sin|cos|tan|arcsin|arccos|arctan)\(([^)]+)\)'), 
+                RegExp(r'(sin|cos|tan|arcsin|arccos|arctan)\(([^)]+)\)'),
                 (match) {
                   String func = match.group(1)!;
                   String val = match.group(2)!;
                   if (func.startsWith('arc')) {
-                     return '($func($val) * 180 / ${math.pi})';
+                    return '($func($val) * 180 / ${math.pi})';
                   }
-                  return '$func(($val) * ${math.pi / 180})'; 
-                }
+                  return '$func(($val) * ${math.pi / 180})';
+                },
               );
             }
 
@@ -129,12 +129,13 @@ class _BilimselHesapMakinesiState extends State<BilimselHesapMakinesi> {
             if (eval % 1 == 0) {
               resultStr = eval.toInt().toString();
             } else {
-              resultStr = eval.toStringAsFixed(8).replaceAll(RegExp(r'([.]*0)+$'), '');
+              resultStr = eval
+                  .toStringAsFixed(8)
+                  .replaceAll(RegExp(r'([.]*0)+$'), '');
             }
-            
+
             _expression = resultStr;
             _previousAnswer = resultStr;
-            
           } catch (e) {
             _expression = "Hata";
           }
@@ -145,25 +146,46 @@ class _BilimselHesapMakinesiState extends State<BilimselHesapMakinesi> {
     });
   }
 
-  Widget buildButton(String text, {Color? color, Color? textColor, int flex = 1}) {
+  Widget buildButton(
+    String text, {
+    Color? color,
+    Color? textColor,
+    int flex = 1,
+  }) {
     String displayText = text;
     if (_isInv) {
       switch (text) {
-        case 'sin': displayText = 'sin⁻¹'; break;
-        case 'cos': displayText = 'cos⁻¹'; break;
-        case 'tan': displayText = 'tan⁻¹'; break;
-        case 'ln': displayText = 'eˣ'; break;
-        case 'log': displayText = '10ˣ'; break;
-        case '√': displayText = 'x²'; break;
+        case 'sin':
+          displayText = 'sin⁻¹';
+          break;
+        case 'cos':
+          displayText = 'cos⁻¹';
+          break;
+        case 'tan':
+          displayText = 'tan⁻¹';
+          break;
+        case 'ln':
+          displayText = 'eˣ';
+          break;
+        case 'log':
+          displayText = '10ˣ';
+          break;
+        case '√':
+          displayText = 'x²';
+          break;
       }
     }
 
-    Color buttonColor = widget.isDarkMode ? const Color(0xFF1E293B) : const Color(0xFFF0F0F0);
-    Color buttonTextColor = widget.isDarkMode ? Colors.white : const Color(0xFF0F172A);
-    
+    Color buttonColor = widget.isDarkMode
+        ? const Color(0xFF1E293B)
+        : const Color(0xFFF0F0F0);
+    Color buttonTextColor = widget.isDarkMode
+        ? Colors.white
+        : const Color(0xFF0F172A);
+
     bool isActiveMode = false;
-    if ((text == 'Rad' && !_isDegree) || 
-        (text == 'Deg' && _isDegree) || 
+    if ((text == 'Rad' && !_isDegree) ||
+        (text == 'Deg' && _isDegree) ||
         (text == 'Inv' && _isInv)) {
       isActiveMode = true;
     }
@@ -175,13 +197,17 @@ class _BilimselHesapMakinesiState extends State<BilimselHesapMakinesi> {
       buttonColor = Colors.red.shade700;
       buttonTextColor = Colors.white;
     } else if (['÷', '×', '-', '+'].contains(text)) {
-      buttonColor = const Color(0xFFFF9500); 
+      buttonColor = const Color(0xFFFF9500);
       buttonTextColor = Colors.white;
-    } else if (!RegExp(r'^[0-9.]+$').hasMatch(text) && text != 'AC' && text != 'C') {
-      buttonColor = widget.isDarkMode ? const Color(0xFF334155) : const Color(0xFFE2E8F0);
+    } else if (!RegExp(r'^[0-9.]+$').hasMatch(text) &&
+        text != 'AC' &&
+        text != 'C') {
+      buttonColor = widget.isDarkMode
+          ? const Color(0xFF334155)
+          : const Color(0xFFE2E8F0);
     } else if (text == 'AC' || text == 'C') {
-       buttonColor = Colors.redAccent.shade100;
-       buttonTextColor = Colors.black; 
+      buttonColor = Colors.redAccent.shade100;
+      buttonTextColor = Colors.black;
     }
 
     Widget content;
@@ -189,17 +215,14 @@ class _BilimselHesapMakinesiState extends State<BilimselHesapMakinesi> {
       content = const Icon(
         Icons.backspace_outlined,
         size: 22,
-        color: Colors.black, 
+        color: Colors.black,
       );
     } else {
       content = Padding(
         padding: const EdgeInsets.all(4.0),
         child: Text(
-          displayText, 
-          style: const TextStyle(
-            fontSize: 16.0, 
-            fontWeight: FontWeight.bold,
-          ),
+          displayText,
+          style: const TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
         ),
       );
     }
@@ -208,21 +231,20 @@ class _BilimselHesapMakinesiState extends State<BilimselHesapMakinesi> {
       flex: flex,
       child: Container(
         margin: const EdgeInsets.all(2.0),
-        child: SizedBox( 
+        child: SizedBox(
           height: 55,
           child: ElevatedButton(
             style: ElevatedButton.styleFrom(
               backgroundColor: buttonColor,
               foregroundColor: buttonTextColor,
               padding: EdgeInsets.zero,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
               elevation: 1,
             ),
             onPressed: () => _onButtonPressed(text),
-            child: FittedBox(
-              fit: BoxFit.scaleDown,
-              child: content,
-            ),
+            child: FittedBox(fit: BoxFit.scaleDown, child: content),
           ),
         ),
       ),
@@ -231,10 +253,18 @@ class _BilimselHesapMakinesiState extends State<BilimselHesapMakinesi> {
 
   @override
   Widget build(BuildContext context) {
-    Color bgColor = widget.isDarkMode ? const Color(0xFF0F172A) : const Color(0xFFF8FAFC);
-    Color mainTextColor = widget.isDarkMode ? Colors.white : const Color(0xFF0F172A);
-    Color historyTextColor = widget.isDarkMode ? const Color(0xFF94A3B8) : const Color(0xFF64748B);
-    Color appBarColor = widget.isDarkMode ? const Color(0xFF0F172A) : const Color(0xFFFF9500);
+    Color bgColor = widget.isDarkMode
+        ? const Color(0xFF0F172A)
+        : const Color(0xFFF8FAFC);
+    Color mainTextColor = widget.isDarkMode
+        ? Colors.white
+        : const Color(0xFF0F172A);
+    Color historyTextColor = widget.isDarkMode
+        ? const Color(0xFF94A3B8)
+        : const Color(0xFF64748B);
+    Color appBarColor = widget.isDarkMode
+        ? const Color(0xFF0F172A)
+        : const Color(0xFFFF9500);
 
     return Scaffold(
       backgroundColor: bgColor,
@@ -243,7 +273,10 @@ class _BilimselHesapMakinesiState extends State<BilimselHesapMakinesi> {
         currentPage: 'scientific',
       ),
       appBar: AppBar(
-        title: const Text("Bilimsel Hesap Makinesi", style: TextStyle(fontSize: 16)),
+        title: const Text(
+          "Bilimsel Hesap Makinesi",
+          style: TextStyle(fontSize: 16),
+        ),
         centerTitle: true,
         backgroundColor: appBarColor,
         foregroundColor: Colors.white,
@@ -267,7 +300,7 @@ class _BilimselHesapMakinesiState extends State<BilimselHesapMakinesi> {
       body: Column(
         children: [
           Expanded(
-            flex: 3, 
+            flex: 3,
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               alignment: Alignment.bottomRight,
@@ -277,7 +310,11 @@ class _BilimselHesapMakinesiState extends State<BilimselHesapMakinesi> {
                 children: [
                   Text(
                     _isDegree ? "DEG" : "RAD",
-                    style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: mainTextColor.withOpacity(0.5)),
+                    style: TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                      color: mainTextColor.withOpacity(0.5),
+                    ),
                   ),
                   Text(
                     _history,
@@ -288,7 +325,11 @@ class _BilimselHesapMakinesiState extends State<BilimselHesapMakinesi> {
                     fit: BoxFit.scaleDown,
                     child: Text(
                       _expression,
-                      style: TextStyle(fontSize: 42, fontWeight: FontWeight.bold, color: mainTextColor),
+                      style: TextStyle(
+                        fontSize: 42,
+                        fontWeight: FontWeight.bold,
+                        color: mainTextColor,
+                      ),
                     ),
                   ),
                 ],
@@ -301,22 +342,62 @@ class _BilimselHesapMakinesiState extends State<BilimselHesapMakinesi> {
             child: Padding(
               padding: const EdgeInsets.all(4.0),
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center, 
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Row( 
-                    children: [buildButton('Rad'), buildButton('Deg'), buildButton('x!'), buildButton('('), buildButton(')'), buildButton('C'), buildButton('AC')],
+                  Row(
+                    children: [
+                      buildButton('Rad'),
+                      buildButton('Deg'),
+                      buildButton('x!'),
+                      buildButton('('),
+                      buildButton(')'),
+                      buildButton('C'),
+                      buildButton('AC'),
+                    ],
                   ),
                   Row(
-                    children: [buildButton('Inv'), buildButton('sin'), buildButton('ln'), buildButton('7'), buildButton('8'), buildButton('9'), buildButton('÷')],
+                    children: [
+                      buildButton('Inv'),
+                      buildButton('sin'),
+                      buildButton('ln'),
+                      buildButton('7'),
+                      buildButton('8'),
+                      buildButton('9'),
+                      buildButton('÷'),
+                    ],
                   ),
                   Row(
-                    children: [buildButton('π'), buildButton('cos'), buildButton('log'), buildButton('4'), buildButton('5'), buildButton('6'), buildButton('×')],
+                    children: [
+                      buildButton('π'),
+                      buildButton('cos'),
+                      buildButton('log'),
+                      buildButton('4'),
+                      buildButton('5'),
+                      buildButton('6'),
+                      buildButton('×'),
+                    ],
                   ),
                   Row(
-                    children: [buildButton('e'), buildButton('tan'), buildButton('√'), buildButton('1'), buildButton('2'), buildButton('3'), buildButton('-')],
+                    children: [
+                      buildButton('e'),
+                      buildButton('tan'),
+                      buildButton('√'),
+                      buildButton('1'),
+                      buildButton('2'),
+                      buildButton('3'),
+                      buildButton('-'),
+                    ],
                   ),
                   Row(
-                    children: [buildButton('Ans'), buildButton('EXP'), buildButton('^'), buildButton('.'), buildButton('0'), buildButton('='), buildButton('+')],
+                    children: [
+                      buildButton('Ans'),
+                      buildButton('EXP'),
+                      buildButton('^'),
+                      buildButton('.'),
+                      buildButton('0'),
+                      buildButton('='),
+                      buildButton('+'),
+                    ],
                   ),
                 ],
               ),
