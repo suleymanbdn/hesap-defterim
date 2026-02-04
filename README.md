@@ -1,168 +1,41 @@
-# 🧮 Hesap Defterim
+# Hesap Defterim
+
+Çok fonksiyonlu hesap makinesi ve birim çevirici uygulaması.
+
+## Özellikler
+
+- ✅ **Hesap Makinesi** - Temel matematiksel işlemler
+- ✅ **Bilimsel Hesap Makinesi** - Sin, cos, tan, log, faktöriyel ve daha fazlası
+- ✅ **Birim Çevirici** - Uzunluk, ağırlık, sıcaklık, alan, hacim, hız, zaman, veri dönüşümleri
+- ✅ **Altın & Gümüş Fiyatları** - Anlık altın ve gümüş fiyatları
+- ✅ **Karanlık/Aydınlık Mod** - Göz dostu tema seçenekleri
+- ✅ **Titreşim & Ses Efektleri** - Kullanıcı deneyimini artıran geri bildirimler
+
+## Ekran Görüntüleri
 
 <p align="center">
-  <img src="assets/icon/icon.png" width="120" alt="Hesap Defterim Logo">
+  <img src="screenshots/hesap_makinesi.jpg" width="200" alt="Hesap Makinesi"/>
+  <img src="screenshots/bilimsel_hesap_makinesi.jpg" width="200" alt="Bilimsel Hesap Makinesi"/>
+  <img src="screenshots/birim_cevirici_1.jpg" width="200" alt="Birim Çevirici - Uzunluk"/>
 </p>
 
 <p align="center">
-  <b>Çok Amaçlı Hesaplama Aracı</b><br>
-  Hesap makinesi, döviz çevirici, birim çevirici ve hesap defteri tek uygulamada!
+  <img src="screenshots/birim_cevirici_2.jpg" width="200" alt="Birim Çevirici - Hacim"/>
+  <img src="screenshots/ayarlar.jpg" width="200" alt="Ayarlar"/>
 </p>
 
-<p align="center">
-  <img src="https://img.shields.io/badge/Flutter-02569B?style=for-the-badge&logo=flutter&logoColor=white" alt="Flutter">
-  <img src="https://img.shields.io/badge/Dart-0175C2?style=for-the-badge&logo=dart&logoColor=white" alt="Dart">
-  <img src="https://img.shields.io/badge/Android-3DDC84?style=for-the-badge&logo=android&logoColor=white" alt="Android">
-</p>
-
----
-
-## ✨ Özellikler
-
-### 📱 Temel Hesap Makinesi
-- Dört işlem (toplama, çıkarma, çarpma, bölme)
-- İşaret değiştirme (+/-)
-- Ondalık sayı desteği
-- Anlık sonuç görüntüleme
-
-### 🔬 Bilimsel Hesap Makinesi
-- Trigonometrik fonksiyonlar (sin, cos, tan)
-- Ters trigonometrik fonksiyonlar
-- Logaritma (ln, log)
-- Üstel işlemler
-- π ve e sabitleri
-- Radyan/Derece modu
-- Faktöriyel hesaplama
-
-### 💱 Para Birimi Çevirici
-- 25+ para birimi desteği
-- **Canlı döviz kurları** (API entegrasyonu)
-- Anlık çeviri
-- Takas butonu ile hızlı işlem
-- Çevrimdışı mod desteği
-
-### 📏 Birim Çevirici
-| Kategori | Birimler |
-|----------|----------|
-| Uzunluk | Metre, Kilometre, Mil, İnç, Fit... |
-| Ağırlık | Kilogram, Gram, Pound, Ons... |
-| Sıcaklık | Celsius, Fahrenheit, Kelvin |
-| Alan | Metrekare, Hektar, Dönüm... |
-| Hacim | Litre, Galon, Metreküp... |
-| Hız | m/s, km/h, mph, Knot |
-| Zaman | Saniye, Dakika, Saat, Gün... |
-| Veri | Byte, KB, MB, GB, TB |
-
-### 📒 Hesap Defteri
-- Önemli hesaplamaları kaydetme
-- Not ekleme özelliği
-- Düzenleme ve silme
-- Geçmiş işlemleri deftere aktarma
-
-### 🎨 Tasarım
-- 🌙 Karanlık tema
-- ☀️ Aydınlık tema
-- Modern ve minimalist arayüz
-- Kolay navigasyon için Drawer menü
-
----
-
-## 📸 Ekran Görüntüleri
-
-<p align="center">
-  <i>Ekran görüntüleri yakında eklenecek...</i>
-</p>
-
----
-
-## 🚀 Kurulum
-
-### Gereksinimler
-- Flutter SDK (3.9.0+)
-- Dart SDK (3.0.0+)
-- Android Studio / VS Code
-
-### Adımlar
+## Kurulum
 
 ```bash
-# Repo'yu klonla
-git clone https://github.com/suleymanbdn/hesap-defterim.git
-
-# Dizine gir
-cd hesap-defterim
-
-# Bağımlılıkları yükle
 flutter pub get
-
-# Uygulamayı çalıştır
 flutter run
 ```
 
----
+## Teknolojiler
 
-## 📦 Build
+- Flutter
+- Dart
 
-### Android APK
-```bash
-flutter build apk --release
-```
+## Lisans
 
-### Android App Bundle (Play Store için)
-```bash
-flutter build appbundle --release
-```
-
----
-
-## 🛠️ Kullanılan Teknolojiler
-
-- **Flutter** - UI Framework
-- **Dart** - Programlama Dili
-- **SharedPreferences** - Yerel veri saklama
-- **HTTP** - API istekleri
-- **Math Expressions** - Matematiksel işlemler
-
----
-
-## 📁 Proje Yapısı
-
-```
-lib/
-├── main.dart                    # Uygulama giriş noktası
-├── anasayfa.dart               # Ana hesap makinesi
-├── bilimsel_hesap_makinesi.dart # Bilimsel hesap makinesi
-├── para_birimi_cevirme.dart    # Döviz çevirici
-├── birim_cevirme.dart          # Birim çevirici
-├── gecmis_sayfasi.dart         # Hesaplama geçmişi
-├── defter_sayfasi.dart         # Hesap defteri
-├── ayarlar_sayfasi.dart        # Ayarlar
-└── drawer_widget.dart          # Yan menü widget'ı
-```
-
----
-
-## 👨‍💻 Geliştirici
-
-**Geliştirici:** Süleyman Büdün
-
-**Yayıncı:** SuBuSoft
-
-- GitHub: [@suleymanbdn](https://github.com/suleymanbdn)
-
----
-
-## 📄 Lisans
-
-Bu proje MIT lisansı altında lisanslanmıştır. Detaylar için [LICENSE](LICENSE) dosyasına bakın.
-
----
-
-## ⭐ Destek
-
-Eğer bu proje işinize yaradıysa, bir ⭐ vererek destek olabilirsiniz!
-
----
-
-<p align="center">
-  Made with ❤️ by SuBuSoft
-</p>
+Bu proje MIT lisansı altında lisanslanmıştır.
