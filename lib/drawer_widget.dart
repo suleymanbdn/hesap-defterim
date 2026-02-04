@@ -14,9 +14,13 @@ class AppDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Color bgColor = isDarkMode ? const Color(0xFF0F172A) : const Color(0xFFF8FAFC);
+    Color bgColor = isDarkMode
+        ? const Color(0xFF0F172A)
+        : const Color(0xFFF8FAFC);
     Color textColor = isDarkMode ? Colors.white : const Color(0xFF0F172A);
-    Color subTextColor = isDarkMode ? const Color(0xFF94A3B8) : const Color(0xFF64748B);
+    Color subTextColor = isDarkMode
+        ? const Color(0xFF94A3B8)
+        : const Color(0xFF64748B);
 
     return Drawer(
       backgroundColor: bgColor,
@@ -117,6 +121,16 @@ class AppDrawer extends StatelessWidget {
             isSelected: currentPage == 'unit',
             routeName: 'unit',
           ),
+          _buildDrawerItem(
+            context: context,
+            icon: Icons.diamond,
+            title: "Altın & Gümüş Fiyatları",
+            subtitle: "Canlı kıymetli maden fiyatları",
+            textColor: textColor,
+            subTextColor: subTextColor,
+            isSelected: currentPage == 'gold',
+            routeName: 'gold',
+          ),
           const Divider(),
           _buildDrawerItem(
             context: context,
@@ -165,13 +179,15 @@ class AppDrawer extends StatelessWidget {
     required String routeName,
   }) {
     return Container(
-      color: isSelected 
+      color: isSelected
           ? (isDarkMode ? const Color(0xFF334155) : const Color(0xFFFFE4C4))
           : Colors.transparent,
       child: ListTile(
         leading: Icon(
-          icon, 
-          color: isSelected ? const Color(0xFFFF9500) : const Color(0xFFFF9500).withOpacity(0.7),
+          icon,
+          color: isSelected
+              ? const Color(0xFFFF9500)
+              : const Color(0xFFFF9500).withOpacity(0.7),
         ),
         title: Text(
           title,
@@ -186,13 +202,13 @@ class AppDrawer extends StatelessWidget {
         ),
         onTap: () {
           Navigator.pop(context); // Drawer'ı kapat
-          
+
           if (!isSelected) {
             // Mevcut sayfadan çık ve yeni sayfaya git
             if (currentPage != 'calculator') {
               Navigator.pop(context); // Mevcut sayfadan çık
             }
-            
+
             // Hedef sayfaya git
             if (routeName != 'calculator') {
               Navigator.pushNamed(context, '/$routeName');
@@ -203,7 +219,3 @@ class AppDrawer extends StatelessWidget {
     );
   }
 }
-
-
-
-

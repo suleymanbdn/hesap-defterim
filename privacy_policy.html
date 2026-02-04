@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Çok Amaçlı Hesap Makinesi Gizlilik Politikası">
+    <title>Gizlilik Politikası - Çok Amaçlı Hesap Makinesi</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.8;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 40px auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            animation: fadeIn 0.6s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 60px 40px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.95;
+        }
+
+        .content {
+            padding: 50px 40px;
+        }
+
+        .section {
+            margin-bottom: 40px;
+            animation: slideIn 0.5s ease-out forwards;
+            opacity: 0;
+        }
+
+        .section:nth-child(1) { animation-delay: 0.1s; }
+        .section:nth-child(2) { animation-delay: 0.2s; }
+        .section:nth-child(3) { animation-delay: 0.3s; }
+        .section:nth-child(4) { animation-delay: 0.4s; }
+        .section:nth-child(5) { animation-delay: 0.5s; }
+        .section:nth-child(6) { animation-delay: 0.6s; }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .section h2 {
+            color: #667eea;
+            font-size: 1.8em;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+            display: inline-block;
+        }
+
+        .section h3 {
+            color: #764ba2;
+            font-size: 1.3em;
+            margin-top: 25px;
+            margin-bottom: 10px;
+        }
+
+        .section p {
+            margin-bottom: 15px;
+            color: #555;
+            text-align: justify;
+        }
+
+        .section ul {
+            margin-left: 30px;
+            margin-bottom: 15px;
+        }
+
+        .section li {
+            margin-bottom: 10px;
+            color: #555;
+            position: relative;
+            padding-left: 10px;
+        }
+
+        .section li::before {
+            content: "▸";
+            position: absolute;
+            left: -20px;
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 25px;
+            border-radius: 12px;
+            margin: 20px 0;
+            border-left: 5px solid #667eea;
+        }
+
+        .highlight-box p {
+            margin-bottom: 0;
+        }
+
+        .contact-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 12px;
+            margin: 30px 0;
+            text-align: center;
+        }
+
+        .contact-box h3 {
+            color: white;
+            margin-bottom: 15px;
+        }
+
+        .contact-box a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            border-bottom: 2px solid white;
+            padding-bottom: 2px;
+            transition: all 0.3s ease;
+        }
+
+        .contact-box a:hover {
+            opacity: 0.8;
+            border-bottom: 2px solid transparent;
+        }
+
+        .footer {
+            background: #f8f9fa;
+            padding: 30px 40px;
+            text-align: center;
+            color: #666;
+            font-size: 0.9em;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .date {
+            color: #764ba2;
+            font-weight: 600;
+            font-size: 1.1em;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 20px auto;
+                border-radius: 15px;
+            }
+
+            .header {
+                padding: 40px 25px;
+            }
+
+            .header h1 {
+                font-size: 1.8em;
+            }
+
+            .content {
+                padding: 30px 25px;
+            }
+
+            .section h2 {
+                font-size: 1.5em;
+            }
+
+            .footer {
+                padding: 20px 25px;
+            }
+        }
+
+        .icon {
+            display: inline-block;
+            margin-right: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔒 Gizlilik Politikası</h1>
+            <p>Çok Amaçlı Hesap Makinesi</p>
+        </div>
+
+        <div class="content">
+            <div class="section">
+                <div class="highlight-box">
+                    <p><strong>Son Güncelleme:</strong> <span class="date">27 Ocak 2026</span></p>
+                    <p>Bu gizlilik politikası, Çok Amaçlı Hesap Makinesi uygulamasının kullanıcı gizliliğine verdiği önemi açıklamaktadır.</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2><span class="icon">📱</span>Uygulama Hakkında</h2>
+                <p>Çok Amaçlı Hesap Makinesi, kullanıcılarına temel ve bilimsel hesaplama, para birimi çevirme, birim dönüştürme ve hesap defteri özellikleri sunan ücretsiz bir mobil uygulamadır.</p>
+            </div>
+
+            <div class="section">
+                <h2><span class="icon">🔐</span>Toplanan Bilgiler</h2>
+                <p>Uygulamamız gizliliğinize önem verir ve <strong>hiçbir kişisel bilginizi toplamaz, saklamaz veya üçüncü taraflarla paylaşmaz</strong>.</p>
+                
+                <h3>Yerel Veri Depolama</h3>
+                <p>Aşağıdaki veriler yalnızca <strong>cihazınızda yerel olarak</strong> saklanır ve asla sunucularımıza veya üçüncü taraf servislere gönderilmez:</p>
+                <ul>
+                    <li><strong>Hesaplama Geçmişi:</strong> Yaptığınız matematiksel işlemler</li>
+                    <li><strong>Hesap Defteri Kayıtları:</strong> Eklediğiniz gelir ve gider kayıtları</li>
+                    <li><strong>Uygulama Ayarları:</strong> Tema tercihleri ve diğer kullanıcı ayarları</li>
+                </ul>
+                <p>Bu veriler tamamen cihazınızda kalır ve istediğiniz zaman uygulamayı silerek tüm verileri tamamen kaldırabilirsiniz.</p>
+            </div>
+
+            <div class="section">
+                <h2><span class="icon">🌐</span>İnternet Bağlantısı</h2>
+                <p>Uygulamamız sadece aşağıdaki amaçlar için internet bağlantısı kullanır:</p>
+                <ul>
+                    <li><strong>Para Birimi Çevirme:</strong> Güncel döviz kurlarını almak için üçüncü taraf API servisleri kullanılır</li>
+                    <li><strong>Uygulama Güncellemeleri:</strong> Yeni sürüm kontrolü için</li>
+                </ul>
+                <p>Bu işlemler sırasında hiçbir kişisel bilginiz paylaşılmaz.</p>
+            </div>
+
+            <div class="section">
+                <h2><span class="icon">🛡️</span>Veri Güvenliği</h2>
+                <p>Uygulamanız tarafından yerel olarak saklanan tüm veriler, cihazınızın işletim sistemi güvenlik önlemleri ile korunmaktadır. Bu veriler:</p>
+                <ul>
+                    <li>Şifrelenmemiş olarak cihazınızda saklanır (hassas finansal bilgiler içermediği için)</li>
+                    <li>Sadece uygulama tarafından erişilebilir</li>
+                    <li>Başka uygulamalar tarafından okunamaz</li>
+                    <li>Sunucularımıza veya üçüncü taraflara asla gönderilmez</li>
+                </ul>
+            </div>
+
+            <div class="section">
+                <h2><span class="icon">👤</span>Üçüncü Taraf Servisler</h2>
+                <p>Uygulamamız sadece para birimi döviz kurlarını almak için üçüncü taraf API servisleri kullanır. Bu servislere yapılan istekler anonim olup, hiçbir kişisel bilgi içermez.</p>
+            </div>
+
+            <div class="section">
+                <h2><span class="icon">🔄</span>Çocukların Gizliliği</h2>
+                <p>Uygulamamız 13 yaş altı çocukları hedeflemez ve bilinçli olarak bu yaş grubundan kişisel bilgi toplamaz. Herhangi bir kişisel veri toplamadığımız için, tüm yaş grupları uygulamamızı güvenle kullanabilir.</p>
+            </div>
+
+            <div class="section">
+                <h2><span class="icon">📝</span>Gizlilik Politikası Değişiklikleri</h2>
+                <p>Bu gizlilik politikasını zaman zaman güncelleyebiliriz. Herhangi bir değişiklik bu sayfada yayınlanacak ve "Son Güncelleme" tarihi güncellenecektir. Bu sayfayı periyodik olarak kontrol etmenizi öneririz.</p>
+            </div>
+
+            <div class="section">
+                <h2><span class="icon">⚖️</span>Yasal Haklar</h2>
+                <p>Hiçbir kişisel veri toplamadığımız için, GDPR ve diğer veri koruma yasaları kapsamında herhangi bir veri işleme faaliyeti gerçekleştirmiyoruz. Tüm verileriniz cihazınızda kalır ve tam kontrolünüzdedir.</p>
+            </div>
+
+            <div class="contact-box">
+                <h3>📧 İletişim</h3>
+                <p>Gizlilik politikamız veya uygulamamız hakkında herhangi bir sorunuz varsa, lütfen bizimle iletişime geçin:</p>
+                <p style="margin-top: 15px;">
+                    <strong>E-posta:</strong> <a href="mailto:suleymanbudun09@gmail.com">suleymanbudun09@gmail.com</a>
+                </p>
+                <p style="margin-top: 10px;">
+                    <strong>Geliştirici:</strong> SuBuSoft
+                </p>
+            </div>
+
+            <div class="highlight-box">
+                <p><strong>📌 Özetle:</strong> Çok Amaçlı Hesap Makinesi uygulaması hiçbir kişisel bilginizi toplamaz, saklamaz veya paylaşmaz. Tüm verileriniz cihazınızda güvende kalır ve tam kontrolünüzdedir.</p>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>&copy; 2026 Çok Amaçlı Hesap Makinesi. Tüm hakları saklıdır.</p>
+            <p style="margin-top: 10px;">Bu uygulama SuBuSoft tarafından geliştirilmiştir.</p>
+        </div>
+    </div>
+</body>
+</html>

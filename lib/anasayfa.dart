@@ -180,24 +180,35 @@ class _AnasayfaState extends State<Anasayfa> {
     return double.parse(workingTokens[0]);
   }
 
+  // Uyumlu Renk Paleti
+  static const Color _primaryOrange = Color(0xFFFF9500);
+  static const Color _deepAmber = Color(0xFFE67E22);
+
   Color getButtonColor(String text) {
+    // Eşittir - Koyu amber
     if (text == "=") {
-      return Colors.red.shade700;
+      return _deepAmber;
     }
+    // Operatörler - Ana turuncu
     if (["/", "x", "-", "+"].contains(text)) {
-      return const Color(0xFFFF9500);
+      return _primaryOrange;
     }
+    // Temizle butonları - Yumuşak mercan
     if (["AC", "C"].contains(text)) {
-      return Colors.redAccent.shade100;
-    }
-    if (text == "+/-") {
       return widget.isDarkMode
-          ? const Color(0xFF1E293B)
-          : const Color(0xFFF0F0F0);
+          ? const Color(0xFFDC6B4A)
+          : const Color(0xFFFFCCAA);
     }
+    // +/- ve nokta - Özel fonksiyon
+    if (text == "+/-" || text == ".") {
+      return widget.isDarkMode
+          ? const Color(0xFF374151)
+          : const Color(0xFFE5E7EB);
+    }
+    // Sayılar - Nötr
     return widget.isDarkMode
-        ? const Color(0xFF1E293B)
-        : const Color(0xFFF0F0F0);
+        ? const Color(0xFF1F2937)
+        : const Color(0xFFF3F4F6);
   }
 
   Color getButtonTextColor(String text) {
@@ -208,18 +219,18 @@ class _AnasayfaState extends State<Anasayfa> {
       return Colors.white;
     }
     if (["AC", "C"].contains(text)) {
-      return Colors.black;
+      return widget.isDarkMode ? Colors.white : const Color(0xFF9A3412);
     }
-    return widget.isDarkMode ? Colors.white : Colors.black;
+    return widget.isDarkMode ? Colors.white : const Color(0xFF1F2937);
   }
 
   Widget buildButton(String buttonText, {int flex = 1}) {
     Widget content;
     if (buttonText == "C") {
-      content = const Icon(
+      content = Icon(
         Icons.backspace_outlined,
         size: 28,
-        color: Colors.black,
+        color: getButtonTextColor(buttonText),
       );
     } else {
       content = Text(
@@ -306,116 +317,116 @@ class _AnasayfaState extends State<Anasayfa> {
             Expanded(
               flex: 3,
               child: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                GestureDetector(
-                  onTap: () => Navigator.pushNamed(context, '/history'),
-                  child: Container(
-                    width: double.infinity,
-                    color: Colors.transparent,
-                    alignment: Alignment.centerRight,
-                    padding: const EdgeInsets.fromLTRB(20, 10, 20, 5),
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      reverse: true,
-                      child: Text(
-                        _history,
-                        style: TextStyle(
-                          fontSize: 24.0,
-                          color: historyTextColor,
+                mainAxisAlignment: MainAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  GestureDetector(
+                    onTap: () => Navigator.pushNamed(context, '/history'),
+                    child: Container(
+                      width: double.infinity,
+                      color: Colors.transparent,
+                      alignment: Alignment.centerRight,
+                      padding: const EdgeInsets.fromLTRB(20, 10, 20, 5),
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        reverse: true,
+                        child: Text(
+                          _history,
+                          style: TextStyle(
+                            fontSize: 24.0,
+                            color: historyTextColor,
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-                Container(
-                  alignment: Alignment.centerRight,
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 25.0,
-                    vertical: 5,
-                  ),
-                  child: FittedBox(
-                    fit: BoxFit.scaleDown,
+                  Container(
                     alignment: Alignment.centerRight,
-                    child: Text(
-                      _output,
-                      style: TextStyle(
-                        fontSize: 45.0,
-                        fontWeight: FontWeight.w300,
-                        color: mainTextColor,
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 25.0,
+                      vertical: 5,
+                    ),
+                    child: FittedBox(
+                      fit: BoxFit.scaleDown,
+                      alignment: Alignment.centerRight,
+                      child: Text(
+                        _output,
+                        style: TextStyle(
+                          fontSize: 45.0,
+                          fontWeight: FontWeight.w300,
+                          color: mainTextColor,
+                        ),
                       ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Expanded(
-            flex: 7,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                children: [
-                  Expanded(
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        buildButton("AC"),
-                        buildButton("C"),
-                        buildButton("+/-"),
-                        buildButton("/"),
-                      ],
-                    ),
-                  ),
-                  Expanded(
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        buildButton("7"),
-                        buildButton("8"),
-                        buildButton("9"),
-                        buildButton("x"),
-                      ],
-                    ),
-                  ),
-                  Expanded(
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        buildButton("4"),
-                        buildButton("5"),
-                        buildButton("6"),
-                        buildButton("-"),
-                      ],
-                    ),
-                  ),
-                  Expanded(
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        buildButton("1"),
-                        buildButton("2"),
-                        buildButton("3"),
-                        buildButton("+"),
-                      ],
-                    ),
-                  ),
-                  Expanded(
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        buildButton("0", flex: 2),
-                        buildButton("."),
-                        buildButton("="),
-                      ],
                     ),
                   ),
                 ],
               ),
             ),
-          ),
-        ],
+            Expanded(
+              flex: 7,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          buildButton("AC"),
+                          buildButton("C"),
+                          buildButton("+/-"),
+                          buildButton("/"),
+                        ],
+                      ),
+                    ),
+                    Expanded(
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          buildButton("7"),
+                          buildButton("8"),
+                          buildButton("9"),
+                          buildButton("x"),
+                        ],
+                      ),
+                    ),
+                    Expanded(
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          buildButton("4"),
+                          buildButton("5"),
+                          buildButton("6"),
+                          buildButton("-"),
+                        ],
+                      ),
+                    ),
+                    Expanded(
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          buildButton("1"),
+                          buildButton("2"),
+                          buildButton("3"),
+                          buildButton("+"),
+                        ],
+                      ),
+                    ),
+                    Expanded(
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          buildButton("0", flex: 2),
+                          buildButton("."),
+                          buildButton("="),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );

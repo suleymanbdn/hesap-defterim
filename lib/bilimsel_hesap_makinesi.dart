@@ -58,10 +58,28 @@ class _BilimselHesapMakinesiState extends State<BilimselHesapMakinesi> {
           }
           break;
         case 'EXP':
-          _expression += "e";
+          _expression += "E";
           break;
         case 'x!':
-          _expression += "!";
+          try {
+            // Mevcut ifadeyi sayıya çevir ve faktöriyeli hesapla
+            String currentExpr = _expression;
+            if (currentExpr.isNotEmpty &&
+                RegExp(r'^\d+$').hasMatch(currentExpr)) {
+              int n = int.parse(currentExpr);
+              if (n >= 0 && n <= 20) {
+                int result = 1;
+                for (int i = 2; i <= n; i++) {
+                  result *= i;
+                }
+                _expression = result.toString();
+              } else {
+                _expression = "Hata";
+              }
+            }
+          } catch (e) {
+            _expression = "Hata";
+          }
           break;
 
         case 'sin':
@@ -97,10 +115,24 @@ class _BilimselHesapMakinesiState extends State<BilimselHesapMakinesi> {
             finalExpression = finalExpression.replaceAll('×', '*');
             finalExpression = finalExpression.replaceAll('÷', '/');
             finalExpression = finalExpression.replaceAll('π', '${math.pi}');
-            finalExpression = finalExpression.replaceAll('e', '${math.e}');
 
-            finalExpression = finalExpression.replaceAll('log', 'log10');
-            finalExpression = finalExpression.replaceAll('ln', 'ln');
+            // EXP tuşu için E harfini bilimsel notasyona çevir (örn: 5E3 -> 5*10^3)
+            finalExpression = finalExpression.replaceAllMapped(
+              RegExp(r'(\d+)E(\d+)'),
+              (match) => '(${match.group(1)}*10^${match.group(2)})',
+            );
+
+            // Euler sabiti 'e' - sadece tek başına veya operatörlerden sonra gelen 'e' harflerini değiştir
+            finalExpression = finalExpression.replaceAllMapped(
+              RegExp(r'(?<![a-zA-Z])e(?![a-zA-Z])'),
+              (match) => '${math.e}',
+            );
+
+            // log(x) ifadesini ln(x)/ln(10) formülüne çevir (log base 10)
+            finalExpression = finalExpression.replaceAllMapped(
+              RegExp(r'log\(([^)]+)\)'),
+              (match) => '(ln(${match.group(1)})/ln(10))',
+            );
 
             finalExpression = finalExpression.replaceAll('asin', 'arcsin');
             finalExpression = finalExpression.replaceAll('acos', 'arccos');
@@ -176,12 +208,17 @@ class _BilimselHesapMakinesiState extends State<BilimselHesapMakinesi> {
       }
     }
 
+    // Uyumlu Renk Paleti
+    const Color primaryOrange = Color(0xFFFF9500);
+    const Color deepAmber = Color(0xFFE67E22);
+    const Color tealAccent = Color(0xFF0891B2);
+
     Color buttonColor = widget.isDarkMode
-        ? const Color(0xFF1E293B)
-        : const Color(0xFFF0F0F0);
+        ? const Color(0xFF1F2937)
+        : const Color(0xFFF3F4F6);
     Color buttonTextColor = widget.isDarkMode
         ? Colors.white
-        : const Color(0xFF0F172A);
+        : const Color(0xFF1F2937);
 
     bool isActiveMode = false;
     if ((text == 'Rad' && !_isDegree) ||
@@ -191,31 +228,41 @@ class _BilimselHesapMakinesiState extends State<BilimselHesapMakinesi> {
     }
 
     if (isActiveMode) {
-      buttonColor = const Color(0xFF3B82F6);
+      // Aktif mod - Teal (turuncu ile uyumlu)
+      buttonColor = tealAccent;
       buttonTextColor = Colors.white;
     } else if (text == '=') {
-      buttonColor = Colors.red.shade700;
+      // Eşittir - Koyu amber
+      buttonColor = deepAmber;
       buttonTextColor = Colors.white;
     } else if (['÷', '×', '-', '+'].contains(text)) {
-      buttonColor = const Color(0xFFFF9500);
+      // Operatörler - Ana turuncu
+      buttonColor = primaryOrange;
       buttonTextColor = Colors.white;
-    } else if (!RegExp(r'^[0-9.]+$').hasMatch(text) &&
-        text != 'AC' &&
-        text != 'C') {
-      buttonColor = widget.isDarkMode
-          ? const Color(0xFF334155)
-          : const Color(0xFFE2E8F0);
     } else if (text == 'AC' || text == 'C') {
-      buttonColor = Colors.redAccent.shade100;
-      buttonTextColor = Colors.black;
+      // Temizle - Yumuşak mercan
+      buttonColor = widget.isDarkMode
+          ? const Color(0xFFDC6B4A)
+          : const Color(0xFFFFCCAA);
+      buttonTextColor = widget.isDarkMode
+          ? Colors.white
+          : const Color(0xFF9A3412);
+    } else if (!RegExp(r'^[0-9.]+$').hasMatch(text)) {
+      // Bilimsel fonksiyonlar - Teal tonları
+      buttonColor = widget.isDarkMode
+          ? const Color(0xFF164E63)
+          : const Color(0xFFCFFAFE);
+      buttonTextColor = widget.isDarkMode
+          ? const Color(0xFF67E8F9)
+          : const Color(0xFF0E7490);
     }
 
     Widget content;
     if (text == "C") {
-      content = const Icon(
+      content = Icon(
         Icons.backspace_outlined,
         size: 22,
-        color: Colors.black,
+        color: buttonTextColor,
       );
     } else {
       content = Padding(
@@ -243,7 +290,7 @@ class _BilimselHesapMakinesiState extends State<BilimselHesapMakinesi> {
               ),
               elevation: 1,
             ),
-            onPressed: () => _onButtonPressed(text),
+            onPressed: () => _onButtonPressed(displayText),
             child: FittedBox(fit: BoxFit.scaleDown, child: content),
           ),
         ),
@@ -303,108 +350,108 @@ class _BilimselHesapMakinesiState extends State<BilimselHesapMakinesi> {
             Expanded(
               flex: 3,
               child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              alignment: Alignment.bottomRight,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Text(
-                    _isDegree ? "DEG" : "RAD",
-                    style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.bold,
-                      color: mainTextColor.withOpacity(0.5),
-                    ),
-                  ),
-                  Text(
-                    _history,
-                    style: TextStyle(fontSize: 22, color: historyTextColor),
-                  ),
-                  const SizedBox(height: 8),
-                  FittedBox(
-                    fit: BoxFit.scaleDown,
-                    child: Text(
-                      _expression,
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                alignment: Alignment.bottomRight,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Text(
+                      _isDegree ? "DEG" : "RAD",
                       style: TextStyle(
-                        fontSize: 42,
+                        fontSize: 12,
                         fontWeight: FontWeight.bold,
-                        color: mainTextColor,
+                        color: mainTextColor.withOpacity(0.5),
                       ),
                     ),
-                  ),
-                ],
+                    Text(
+                      _history,
+                      style: TextStyle(fontSize: 22, color: historyTextColor),
+                    ),
+                    const SizedBox(height: 8),
+                    FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: Text(
+                        _expression,
+                        style: TextStyle(
+                          fontSize: 42,
+                          fontWeight: FontWeight.bold,
+                          color: mainTextColor,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-          const Divider(),
-          Expanded(
-            flex: 5,
-            child: Padding(
-              padding: const EdgeInsets.all(4.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Row(
-                    children: [
-                      buildButton('Rad'),
-                      buildButton('Deg'),
-                      buildButton('x!'),
-                      buildButton('('),
-                      buildButton(')'),
-                      buildButton('C'),
-                      buildButton('AC'),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      buildButton('Inv'),
-                      buildButton('sin'),
-                      buildButton('ln'),
-                      buildButton('7'),
-                      buildButton('8'),
-                      buildButton('9'),
-                      buildButton('÷'),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      buildButton('π'),
-                      buildButton('cos'),
-                      buildButton('log'),
-                      buildButton('4'),
-                      buildButton('5'),
-                      buildButton('6'),
-                      buildButton('×'),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      buildButton('e'),
-                      buildButton('tan'),
-                      buildButton('√'),
-                      buildButton('1'),
-                      buildButton('2'),
-                      buildButton('3'),
-                      buildButton('-'),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      buildButton('Ans'),
-                      buildButton('EXP'),
-                      buildButton('^'),
-                      buildButton('.'),
-                      buildButton('0'),
-                      buildButton('='),
-                      buildButton('+'),
-                    ],
-                  ),
-                ],
+            const Divider(),
+            Expanded(
+              flex: 5,
+              child: Padding(
+                padding: const EdgeInsets.all(4.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Row(
+                      children: [
+                        buildButton('Rad'),
+                        buildButton('Deg'),
+                        buildButton('x!'),
+                        buildButton('('),
+                        buildButton(')'),
+                        buildButton('C'),
+                        buildButton('AC'),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        buildButton('Inv'),
+                        buildButton('sin'),
+                        buildButton('ln'),
+                        buildButton('7'),
+                        buildButton('8'),
+                        buildButton('9'),
+                        buildButton('÷'),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        buildButton('π'),
+                        buildButton('cos'),
+                        buildButton('log'),
+                        buildButton('4'),
+                        buildButton('5'),
+                        buildButton('6'),
+                        buildButton('×'),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        buildButton('e'),
+                        buildButton('tan'),
+                        buildButton('√'),
+                        buildButton('1'),
+                        buildButton('2'),
+                        buildButton('3'),
+                        buildButton('-'),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        buildButton('Ans'),
+                        buildButton('EXP'),
+                        buildButton('^'),
+                        buildButton('.'),
+                        buildButton('0'),
+                        buildButton('='),
+                        buildButton('+'),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-        ],
+          ],
         ),
       ),
     );

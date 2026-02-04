@@ -6,6 +6,7 @@ import 'package:tasarim_calismasi/birim_cevirme.dart';
 import 'package:tasarim_calismasi/gecmis_sayfasi.dart';
 import 'package:tasarim_calismasi/defter_sayfasi.dart';
 import 'package:tasarim_calismasi/ayarlar_sayfasi.dart';
+import 'package:tasarim_calismasi/altin_fiyatlari.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
@@ -119,7 +120,9 @@ class _MyAppState extends State<MyApp> {
           isDarkMode: isDarkMode,
           onThemeChanged: _toggleTheme,
         ),
-        '/unit': (context) => BirimCevirme(
+        '/unit': (context) =>
+            BirimCevirme(isDarkMode: isDarkMode, onThemeChanged: _toggleTheme),
+        '/gold': (context) => AltinFiyatlari(
           isDarkMode: isDarkMode,
           onThemeChanged: _toggleTheme,
         ),
