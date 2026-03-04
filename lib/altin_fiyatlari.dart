@@ -502,6 +502,8 @@ class _AltinFiyatlariState extends State<AltinFiyatlari> {
     required Color subTextColor,
   }) {
     double change = _getPriceChange(isGold ? 'gram_altin' : 'gram_gumus');
+    // Sadece %0.5'ten büyük değişimleri göster (anlık dalgalanmaları filtrele)
+    bool showChange = change.abs() >= 0.5;
     bool isPositive = change >= 0;
 
     // Gradient renkleri
@@ -558,7 +560,7 @@ class _AltinFiyatlariState extends State<AltinFiyatlari> {
                 fontSize: 16,
               ),
             ),
-            if (change != 0)
+            if (showChange)
               Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
