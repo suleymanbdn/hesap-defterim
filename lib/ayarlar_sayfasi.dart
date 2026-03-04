@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'drawer_widget.dart';
+import 'services/ads_service.dart';
 
 class AyarlarSayfasi extends StatefulWidget {
   final bool isDarkMode;
@@ -164,10 +165,14 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi> {
         ),
       ),
       body: SafeArea(
-        child: ListView(
-          padding: const EdgeInsets.all(16),
+        child: Column(
           children: [
-          _buildSectionTitle("Görünüm", textColor),
+            const DoubleBannerAdWidget(),
+            Expanded(
+              child: ListView(
+                padding: const EdgeInsets.all(16),
+                children: [
+                _buildSectionTitle("Görünüm", textColor),
           Card(
             color: cardColor,
             elevation: 2,
@@ -396,6 +401,9 @@ class _AyarlarSayfasiState extends State<AyarlarSayfasi> {
 
           const SizedBox(height: 32),
         ],
+              ),
+            ),
+          ],
         ),
       ),
     );

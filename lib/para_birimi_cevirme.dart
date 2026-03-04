@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'drawer_widget.dart';
+import 'services/ads_service.dart';
 
 class ParaBirimiCevirme extends StatefulWidget {
   final bool isDarkMode;
@@ -260,7 +261,11 @@ class _ParaBirimiCevirmeState extends State<ParaBirimiCevirme> {
         ],
       ),
       body: SafeArea(
-        child: _isLoading
+        child: Column(
+          children: [
+            const DoubleBannerAdWidget(),
+            Expanded(
+              child: _isLoading
             ? Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -565,6 +570,9 @@ class _ParaBirimiCevirmeState extends State<ParaBirimiCevirme> {
                 ],
               ),
             ),
+            ),
+          ],
+        ),
       ),
     );
   }

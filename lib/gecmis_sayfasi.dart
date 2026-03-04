@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'drawer_widget.dart';
+import 'services/ads_service.dart';
 
 class GecmisSayfasi extends StatelessWidget {
   final List<String> historyList;
@@ -52,7 +53,11 @@ class GecmisSayfasi extends StatelessWidget {
         ],
       ),
       body: SafeArea(
-        child: historyList.isEmpty
+        child: Column(
+          children: [
+            const DoubleBannerAdWidget(),
+            Expanded(
+              child: historyList.isEmpty
             ? Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -105,6 +110,9 @@ class GecmisSayfasi extends StatelessWidget {
                 );
               },
             ),
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:math_expressions/math_expressions.dart';
 import 'dart:math' as math;
 import 'drawer_widget.dart';
+import 'services/ads_service.dart';
 
 class BilimselHesapMakinesi extends StatefulWidget {
   final bool isDarkMode;
@@ -23,6 +24,49 @@ class _BilimselHesapMakinesiState extends State<BilimselHesapMakinesi> {
   String _previousAnswer = "";
   bool _isDegree = false;
   bool _isInv = false;
+
+  String _formatNumberDisplay(String value) {
+    if (value == "Hata" || value == "0") return value;
+
+    final regex = RegExp(r'^(-?)(\d+)(\.(\d*))?$');
+    final match = regex.firstMatch(value);
+    if (match == null) return value;
+
+    final sign = match.group(1) ?? '';
+    final intPart = match.group(2) ?? '';
+    final hasDot = match.group(3) != null;
+    final decPart = match.group(4) ?? '';
+
+    // Binlik nokta ekle
+    final buffer = StringBuffer();
+    for (int i = 0; i < intPart.length; i++) {
+      if (i > 0 && (intPart.length - i) % 3 == 0) {
+        buffer.write('.');
+      }
+      buffer.write(intPart[i]);
+    }
+
+    String result = '$sign${buffer.toString()}';
+    if (hasDot) {
+      result += decPart.isEmpty ? ',' : ',$decPart';
+    }
+
+    return result;
+  }
+
+  String get _displayExpression {
+    final isPureNumber = RegExp(r'^-?\d+\.?\d*$').hasMatch(_expression);
+    if (isPureNumber) return _formatNumberDisplay(_expression);
+    return _expression;
+  }
+
+  String get _displayHistory {
+    if (_history.isEmpty) return _history;
+    return _history.replaceAllMapped(
+      RegExp(r'\d+\.?\d*'),
+      (match) => _formatNumberDisplay(match.group(0)!),
+    );
+  }
 
   void _onButtonPressed(String text) {
     setState(() {
@@ -170,6 +214,11 @@ class _BilimselHesapMakinesiState extends State<BilimselHesapMakinesi> {
             _previousAnswer = resultStr;
           } catch (e) {
             _expression = "Hata";
+          }
+          break;
+        case ',':
+          if (!_expression.contains('.')) {
+            _expression += '.';
           }
           break;
         default:
@@ -347,6 +396,7 @@ class _BilimselHesapMakinesiState extends State<BilimselHesapMakinesi> {
       body: SafeArea(
         child: Column(
           children: [
+            const DoubleBannerAdWidget(),
             Expanded(
               flex: 3,
               child: Container(
@@ -365,14 +415,14 @@ class _BilimselHesapMakinesiState extends State<BilimselHesapMakinesi> {
                       ),
                     ),
                     Text(
-                      _history,
+                      _displayHistory,
                       style: TextStyle(fontSize: 22, color: historyTextColor),
                     ),
                     const SizedBox(height: 8),
                     FittedBox(
                       fit: BoxFit.scaleDown,
                       child: Text(
-                        _expression,
+                        _displayExpression,
                         style: TextStyle(
                           fontSize: 42,
                           fontWeight: FontWeight.bold,
@@ -441,7 +491,7 @@ class _BilimselHesapMakinesiState extends State<BilimselHesapMakinesi> {
                         buildButton('Ans'),
                         buildButton('EXP'),
                         buildButton('^'),
-                        buildButton('.'),
+                        buildButton(','),
                         buildButton('0'),
                         buildButton('='),
                         buildButton('+'),

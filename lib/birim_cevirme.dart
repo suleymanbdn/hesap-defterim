@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'drawer_widget.dart';
+import 'services/ads_service.dart';
 
 class BirimCevirme extends StatefulWidget {
   final bool isDarkMode;
@@ -197,11 +198,15 @@ class _BirimCevirmeState extends State<BirimCevirme> {
         ],
       ),
       body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+        child: Column(
           children: [
+            const DoubleBannerAdWidget(),
+            Expanded(
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
             SizedBox(
               height: 100,
               child: ListView.builder(
@@ -409,6 +414,9 @@ class _BirimCevirmeState extends State<BirimCevirme> {
             ),
           ],
         ),
+        ),
+      ),
+          ],
         ),
       ),
     );

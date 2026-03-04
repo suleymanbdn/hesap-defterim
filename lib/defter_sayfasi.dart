@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'drawer_widget.dart';
+import 'services/ads_service.dart';
 
 class DefterSayfasi extends StatefulWidget {
   final List<String> notebookList;
@@ -145,7 +146,11 @@ class _DefterSayfasiState extends State<DefterSayfasi> {
         ],
       ),
       body: SafeArea(
-        child: currentList.isEmpty
+        child: Column(
+          children: [
+            const DoubleBannerAdWidget(),
+            Expanded(
+              child: currentList.isEmpty
             ? Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -231,6 +236,9 @@ class _DefterSayfasiState extends State<DefterSayfasi> {
                 );
               },
             ),
+            ),
+          ],
+        ),
       ),
     );
   }

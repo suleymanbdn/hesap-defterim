@@ -7,9 +7,14 @@ import 'package:tasarim_calismasi/gecmis_sayfasi.dart';
 import 'package:tasarim_calismasi/defter_sayfasi.dart';
 import 'package:tasarim_calismasi/ayarlar_sayfasi.dart';
 import 'package:tasarim_calismasi/altin_fiyatlari.dart';
+import 'package:tasarim_calismasi/services/ads_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await AdsService.initialize();
+  // Interstitial reklamı önceden yükle
+  await InterstitialAdService().loadAd();
   runApp(const MyApp());
 }
 

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'drawer_widget.dart';
+import 'services/ads_service.dart';
 
 class Anasayfa extends StatefulWidget {
   final bool isDarkMode;
@@ -43,6 +44,62 @@ class _AnasayfaState extends State<Anasayfa> {
     String s = val.toString();
     if (s.endsWith(".0")) return s.substring(0, s.length - 2);
     return s;
+  }
+
+  String _formatNumberDisplay(String value) {
+    if (value == "Hata" || value == "Tanımsız" || value == "0") return value;
+
+    final regex = RegExp(r'^(-?)(\d+)(\.(\d*))?$');
+    final match = regex.firstMatch(value);
+    if (match == null) return value;
+
+    final sign = match.group(1) ?? '';
+    final intPart = match.group(2) ?? '';
+    final hasDot = match.group(3) != null;
+    final decPart = match.group(4) ?? '';
+
+    final buffer = StringBuffer();
+    for (int i = 0; i < intPart.length; i++) {
+      if (i > 0 && (intPart.length - i) % 3 == 0) {
+        buffer.write('.');
+      }
+      buffer.write(intPart[i]);
+    }
+
+    String result = '$sign${buffer.toString()}';
+    if (hasDot) {
+      result += decPart.isEmpty ? ',' : ',$decPart';
+    }
+    return result;
+  }
+
+  String get _displayOutput {
+    if (_output == "0" || _output == "Hata" || _output == "Tanımsız") {
+      return _output;
+    }
+    if (RegExp(r'^-?\d+\.?\d*$').hasMatch(_output)) {
+      return _formatNumberDisplay(_output);
+    }
+    return _output.split(' ').map((token) {
+      if (RegExp(r'^-?\d+\.?\d*$').hasMatch(token)) {
+        return _formatNumberDisplay(token);
+      }
+      if (token == 'x') return '×';
+      if (token == '/') return '÷';
+      return token;
+    }).join(' ');
+  }
+
+  String get _displayHistory {
+    if (_history.isEmpty) return _history;
+    return _history.split(' ').map((token) {
+      if (RegExp(r'^-?\d+\.?\d*$').hasMatch(token)) {
+        return _formatNumberDisplay(token);
+      }
+      if (token == 'x') return '×';
+      if (token == '/') return '÷';
+      return token;
+    }).join(' ');
   }
 
   void _updateOutput() {
@@ -122,7 +179,7 @@ class _AnasayfaState extends State<Anasayfa> {
           _input = "";
         }
       }
-    } else if (buttonText == ".") {
+    } else if (buttonText == "." || buttonText == ",") {
       if (_shouldResetInput) {
         _input = "0";
         _tokens.clear();
@@ -199,8 +256,8 @@ class _AnasayfaState extends State<Anasayfa> {
           ? const Color(0xFFDC6B4A)
           : const Color(0xFFFFCCAA);
     }
-    // +/- ve nokta - Özel fonksiyon
-    if (text == "+/-" || text == ".") {
+    // +/- ve virgül - Özel fonksiyon
+    if (text == "+/-" || text == ",") {
       return widget.isDarkMode
           ? const Color(0xFF374151)
           : const Color(0xFFE5E7EB);
@@ -314,6 +371,7 @@ class _AnasayfaState extends State<Anasayfa> {
       body: SafeArea(
         child: Column(
           children: <Widget>[
+            const DoubleBannerAdWidget(),
             Expanded(
               flex: 3,
               child: Column(
@@ -330,8 +388,8 @@ class _AnasayfaState extends State<Anasayfa> {
                       child: SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
                         reverse: true,
-                        child: Text(
-                          _history,
+                        child:                         Text(
+                          _displayHistory,
                           style: TextStyle(
                             fontSize: 24.0,
                             color: historyTextColor,
@@ -350,7 +408,7 @@ class _AnasayfaState extends State<Anasayfa> {
                       fit: BoxFit.scaleDown,
                       alignment: Alignment.centerRight,
                       child: Text(
-                        _output,
+                        _displayOutput,
                         style: TextStyle(
                           fontSize: 45.0,
                           fontWeight: FontWeight.w300,
@@ -417,7 +475,7 @@ class _AnasayfaState extends State<Anasayfa> {
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
                           buildButton("0", flex: 2),
-                          buildButton("."),
+                          buildButton(","),
                           buildButton("="),
                         ],
                       ),
