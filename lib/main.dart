@@ -13,8 +13,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await AdsService.initialize();
-  // Interstitial reklamı önceden yükle
-  await InterstitialAdService().loadAd();
   runApp(const MyApp());
 }
 
@@ -118,37 +116,37 @@ class _MyAppState extends State<MyApp> {
       ),
       routes: {
         '/scientific': (context) => BilimselHesapMakinesi(
-          isDarkMode: isDarkMode,
-          onThemeChanged: _toggleTheme,
-        ),
+              isDarkMode: isDarkMode,
+              onThemeChanged: _toggleTheme,
+            ),
         '/currency': (context) => ParaBirimiCevirme(
-          isDarkMode: isDarkMode,
-          onThemeChanged: _toggleTheme,
-        ),
+              isDarkMode: isDarkMode,
+              onThemeChanged: _toggleTheme,
+            ),
         '/unit': (context) =>
             BirimCevirme(isDarkMode: isDarkMode, onThemeChanged: _toggleTheme),
         '/gold': (context) => AltinFiyatlari(
-          isDarkMode: isDarkMode,
-          onThemeChanged: _toggleTheme,
-        ),
+              isDarkMode: isDarkMode,
+              onThemeChanged: _toggleTheme,
+            ),
         '/history': (context) => GecmisSayfasi(
-          historyList: historyList,
-          onAddToNotebook: _addToNotebook,
-          isDarkMode: isDarkMode,
-          onThemeChanged: _toggleTheme,
-        ),
+              historyList: historyList,
+              onAddToNotebook: _addToNotebook,
+              isDarkMode: isDarkMode,
+              onThemeChanged: _toggleTheme,
+            ),
         '/notebook': (context) => DefterSayfasi(
-          notebookList: notebookList,
-          onUpdate: _updateNotebook,
-          isDarkMode: isDarkMode,
-          onThemeChanged: _toggleTheme,
-        ),
+              notebookList: notebookList,
+              onUpdate: _updateNotebook,
+              isDarkMode: isDarkMode,
+              onThemeChanged: _toggleTheme,
+            ),
         '/settings': (context) => AyarlarSayfasi(
-          isDarkMode: isDarkMode,
-          onThemeChanged: _toggleTheme,
-          onClearHistory: _clearHistory,
-          onClearNotebook: _clearNotebook,
-        ),
+              isDarkMode: isDarkMode,
+              onThemeChanged: _toggleTheme,
+              onClearHistory: _clearHistory,
+              onClearNotebook: _clearNotebook,
+            ),
       },
     );
   }

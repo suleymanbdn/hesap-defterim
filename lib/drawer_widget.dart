@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'services/ads_service.dart';
 
 class AppDrawer extends StatelessWidget {
   final bool isDarkMode;
@@ -15,13 +14,11 @@ class AppDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Color bgColor = isDarkMode
-        ? const Color(0xFF0F172A)
-        : const Color(0xFFF8FAFC);
+    Color bgColor =
+        isDarkMode ? const Color(0xFF0F172A) : const Color(0xFFF8FAFC);
     Color textColor = isDarkMode ? Colors.white : const Color(0xFF0F172A);
-    Color subTextColor = isDarkMode
-        ? const Color(0xFF94A3B8)
-        : const Color(0xFF64748B);
+    Color subTextColor =
+        isDarkMode ? const Color(0xFF94A3B8) : const Color(0xFF64748B);
 
     return Drawer(
       backgroundColor: bgColor,
@@ -201,13 +198,10 @@ class AppDrawer extends StatelessWidget {
           subtitle,
           style: TextStyle(color: subTextColor, fontSize: 12),
         ),
-        onTap: () async {
+        onTap: () {
           Navigator.pop(context); // Drawer'ı kapat
 
           if (!isSelected) {
-            // Interstitial sayacını artır (her 3 geçişte bir gösterir)
-            await InterstitialAdService().onNavigate();
-
             // Mevcut sayfadan çık ve yeni sayfaya git
             if (currentPage != 'calculator') {
               Navigator.pop(context); // Mevcut sayfadan çık
